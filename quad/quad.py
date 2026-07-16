@@ -1,6 +1,6 @@
-import connection 
 import time
 from pymavlink import mavutil
+from quad import connection 
 
 master = connection.get_master()
 
@@ -38,7 +38,7 @@ def disarm():
         0,0,0,0,0,0
      )
 
-def takeoff():
+def takeoff(alt : float):
     print("Takeoff in a seconds")
     master.mav.command_long_send(
         master.target_system,
@@ -46,7 +46,7 @@ def takeoff():
         mavutil.mavlink.MAV_CMD_NAV_TAKEOFF,
         0,
         0,0,0,0,0,0,
-        10                 # -> altitude(idk)
+        alt                 # -> altitude(idk)
     )
 
 

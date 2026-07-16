@@ -4,4 +4,12 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "matplotlib>=3.11.0",
+    "numpy>=2.5.1",
+    "opencv-python>=5.0.0.93",
+    "pymavlink>=2.4.49",
+    "pynput>=1.8.2",
+    "pyproj>=3.7.2",
+    "shapely>=2.1.2",
+]

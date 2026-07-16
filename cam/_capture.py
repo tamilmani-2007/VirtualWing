@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import logging
+from logger import logger
 import cv2 as cv
 from typing import ( Self, 
                      List,
@@ -16,13 +16,7 @@ import threading
 import queue
 
 
-logging.basicConfig(
-        level = logging.INFO,
-        format = " %(asctime)s [%(levelname)s] %(filename)s : %(lineno)d - %(message)s",
-        datefmt = "%H:%M:%S" 
-    )
-
-logging.getLogger("ultralytics").setLevel(logging.ERROR)
+logger.getLogger("ultralytics").setLevel(logger.ERROR)
 
 
 parser = argparse.ArgumentParser()

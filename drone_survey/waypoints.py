@@ -1,4 +1,5 @@
-import const
+from .const import polygon
+import pyproj
 from pyproj import Transformer, CRS
 from typing import (
                 List,
@@ -7,7 +8,7 @@ from typing import (
                 )
 from shapely import Polygon, LineString
 import math
-
+from utils.logger import logger
 import matplotlib.pyplot as plt
 
 #-----------Typing mention-----------------------------
@@ -341,52 +342,54 @@ class Plotter:
 
                 plt.tight_layout()
                 plt.show()
-          
-
+   
 #--------------------------------------------
-if __name__ == "__main__":
-    polygon = const.polygon
-    polygon_in_meters : List[tuple]= []
-    first_lat, first_lon = polygon[0]
 
-    CoordTrans = CoordinateTransformer(first_lat, first_lon)
+print(polygon)
+polygon_in_meters : List[tuple]= []
+first_lat, first_lon = polygon[0]
 
-    for coordinate in polygon:
-        easting, northing = CoordTrans.gps_to_meter(
-                                coordinate[0],
-                                coordinate[1]
-                            )
-        coord_in_meter = (easting, northing)
-        polygon_in_meters.append(coord_in_meter)
+# resultant gps position for the survey of the intersections
+gps_pos : List[tuple] = []
+CoordTrans = CoordinateTransformer(first_lat, first_lon)
 
-    planner = SurveyPlanner(polygon_in_meters)
-    path = planner.survey_path()          # path for the survey before the rotation
-    
-    survey_area = planner.rotate_points(
-                                path,
-                                ROTATE_POLYGON_REVERSE = True
-                            )
+for coordinate in polygon:
+    easting, northing = CoordTrans.gps_to_meter(
+                            coordinate[0],
+                            coordinate[1]
+                        )
+    coord_in_meter = (easting, northing)
+    polygon_in_meters.append(coord_in_meter)
 
-    # resultant gps position for the survey of the intersections
-    gps_pos : List[tuple] = []
+planner = SurveyPlanner(polygon_in_meters)
+path = planner.survey_path()          # path for the survey before the rotation
 
-    for coordinate in survey_area:
-        lat, lon = CoordTrans.meter_to_gps(
-                                coordinate[0],
-                                coordinate[1]
-                            )
-        coord_in_gps = (lat, lon)
-        gps_pos.append(coord_in_gps)
+survey_area = planner.rotate_points(
+                            path,
+                            ROTATE_POLYGON_REVERSE = True
+                        )
 
-    rotated_polygon = planner.rotated_area
+for coordinate in survey_area:
+    lat, lon = CoordTrans.meter_to_gps(
+                            coordinate[0],
+                            coordinate[1]
+                        )
+    coord_in_gps = (lat, lon)
+    gps_pos.append(coord_in_gps)
+print("-" * 20)
+print("GPS_POS:", gps_pos)
+rotated_polygon = planner.rotated_area
 
-    plotter = Plotter(
-                planner,
-                survey_area
-            )
-    plotter.plot_all()
+plotter = Plotter(
+            planner,
+            survey_area
+        )
+#plotter.plot_all()
 
 """
 Need to add the buffer operations if the border has fence.
 we need to turn the drone before fence nearly 1m - 3m early
 """
+       
+def get_resultant_gps_pos():
+     return gps_pos
