@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 Radian : TypeAlias = float
 Meters : TypeAlias = float
 
-#----------Camera Details in mm------------------------
+#----------Camera Specifications in mm------------------------
 FOCAL_LENGTH = 0.0088
 SENSOR_WIDTH = 0.0132
 SENSOR_HEIGHT = 0.0088
@@ -384,12 +384,14 @@ plotter = Plotter(
             planner,
             survey_area
         )
-#plotter.plot_all()
 
 """
 Need to add the buffer operations if the border has fence.
 we need to turn the drone before fence nearly 1m - 3m early
 """
        
-def get_resultant_gps_pos():
+def get_resultant_gps_pos() -> List[tuple]:
      return gps_pos
+
+def survey_plot():
+       return plotter

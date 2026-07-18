@@ -14,7 +14,7 @@ def get_altitude() -> bool:
     altitude = msg.relative_alt / 1000.0
     return altitude 
 
-def is_flying():
+def isFlying():
     altitude =get_altitude()
     return altitude > 1.0
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from logger import logger
+from utils.logger import logger
 import cv2 as cv
 from typing import ( Self, 
                      List,
@@ -93,17 +93,17 @@ class Sitl:
             heartbeat = master.wait_heartbeat(timeout = 5)
 
             if heartbeat is None:
-                logging.error("there is no Heartbeat comes from SITL...!")
+                logger.error("there is no Heartbeat comes from SITL...!")
                 print("connnection failed")
                 exit()
                 return False
             else:
-                logging.info("MAVlink Connected to SITL successfully...!!")
+                logger.info("MAVlink Connected to SITL successfully...!!")
                 print("Heart Beat recieved")
                 return True
             
         except Exception as e:
-            logging.error(f"Error occured while SITL Connection: {e}")
+            logger.error(f"Error occured while SITL Connection: {e}")
             exit()
             return False
 
@@ -242,7 +242,7 @@ def Capture() -> None:         # to get frames and pass it for the  detections
     while True:
         ret, frame = cap.read()
         if not ret:
-            logging.error("Can't capture the webCam Frame")
+            logger.error("Can't capture the webCam Frame")
             break
         
         frame = cv.flip(frame, 1)

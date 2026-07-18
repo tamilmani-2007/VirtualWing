@@ -32,3 +32,5 @@ def check_for_preArm():
         
     return PRE_ARM_CHECK, CHECKS
  
+def survey_check():
+    pass

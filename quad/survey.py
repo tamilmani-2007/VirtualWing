@@ -6,6 +6,7 @@ from typing import Dict
 from pymavlink import mavutil 
 from drone_survey.waypoints import get_resultant_gps_pos
 from quad.connection import master
+from quad import quad
 
 gps_pos = get_resultant_gps_pos()
 
@@ -85,7 +86,12 @@ def start_survey():
         goto(lat, lon)
         wait_until_reached(lat, lon)
         print(f"Waypoint reached : {i}")
+        last = i
 
-    print("Survey finished")
+    if last == len(gps_pos):
+        print("Survey finished")
+        print("-" * 20)
+        print("Enter into the RTL mode")
+        quad.setmode("RTL")
 
 
