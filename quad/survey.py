@@ -7,6 +7,8 @@ from pymavlink import mavutil
 from drone_survey.waypoints import get_resultant_gps_pos
 from quad.connection import master
 from quad import quad
+from quad.state import get_state
+from quad.state import state
 
 gps_pos = get_resultant_gps_pos()
 
@@ -14,17 +16,6 @@ WAYPOINT_TOLERANCE = 2.0
 EARTH_RADIUS = 63721000
 SURVEY_ALTITUDE = 50.0
 
-def get_current_position():
-    msg = master.recv_match(
-                        type = "GLOBAL_POSITION_INT",
-                        blocking = True,
-                        timeout = 2
-                    )
-    print(msg)
-    lat = msg.lat / 1e7
-    lon = msg.lon / 1e7
-    
-    return lat, lon
 
 def goto(
         lat,
@@ -68,7 +59,8 @@ def harvasine(
 def wait_until_reached(target_lat, target_lon, tolerance = 2.0):
     
     while True:
-        lat, lon = get_current_position()
+        state = get_state()
+        lat, lon = state.lat, state.lon
 
         distance = harvasine(
             lat,
@@ -93,5 +85,6 @@ def start_survey():
         print("-" * 20)
         print("Enter into the RTL mode")
         quad.setmode("RTL")
+        state.is_survey_completed = True
 
 

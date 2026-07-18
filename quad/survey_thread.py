@@ -1,9 +1,10 @@
 import threading
 import time
 from utils.logger import logger 
-from quad import connection, quad, survey
+from quad import connection, quad, survey, state
 from checks import checks
 
+state = state.get_state()
 
 class SurveyFlight(threading.Thread):
     def __init__(self):
@@ -23,11 +24,16 @@ class SurveyFlight(threading.Thread):
             if not quad.isFlying():
                 quad.setmode("GUIDED")
                 quad.arm()
-                master.motors_armed_wait()
+                
+                while not state.armed:
+                    time.sleep(0.1)
+
+                print("Drone armed")
+
                 quad.takeoff(50.0)
 
                 while True:
-                    altitude = quad.get_altitude()
+                    altitude = state.alt
                     if altitude >= 50.0:
                         print("altitude reached")
                         break
@@ -35,4 +41,6 @@ class SurveyFlight(threading.Thread):
 
                 print("Entering into survey mode")
                 survey.start_survey()
+            else:
+                print("Drone is in Flight, Land and try again")
 

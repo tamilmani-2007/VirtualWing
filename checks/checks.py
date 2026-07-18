@@ -1,33 +1,28 @@
 from utils.logger import logger
-from quad.connection import get_master,get_heartbeat
+from quad.connection import get_master
 from typing import (Dict,
                     List,
                     )
-from collections import defaultdict 
+from collections import defaultdict
+from quad.state import state 
 
-# Checks needed for the pre Arm 
-CONNECTION : bool = False
-HEARTBEAT : bool = False
-PRE_ARM_CHECK : bool = False
-CHECKS : Dict[str, bool] = defaultdict(list)
 
 def check_for_preArm():
     """
     Check for the pre Arm to check the drone is ready to fly or not.
     This contains the basic functionality checks needed
     """
-    if get_master() and get_heartbeat():
-        CONNECTION = True
-        HEARTBEAT = True
-    
-    if all([CONNECTION,
-            HEARTBEAT]
+    PRE_ARM_CHECK : bool = False
+    CHECKS : Dict[str : bool] = {}
+
+    if all([state.connected,
+            state.heartbeat]
             ):
         PRE_ARM_CHECK =True
 
     CHECKS.update({
-            "CONNECTION" : True,          
-            "HEARTBEAT" : True
+            "CONNECTION" : state.connected,          
+            "HEARTBEAT" : state.heartbeat
             })
         
     return PRE_ARM_CHECK, CHECKS

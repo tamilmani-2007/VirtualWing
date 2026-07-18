@@ -1,21 +1,12 @@
 import time
 from pymavlink import mavutil
 from quad import connection 
+from quad.state import state
 
 master = connection.get_master()
 
-def get_altitude() -> bool:
-    msg : float= master.recv_match(
-            type = 'GLOBAL_POSITION_INT',
-            blocking = False,
-        )
-    if msg is None:
-        return 0.0
-    altitude = msg.relative_alt / 1000.0
-    return altitude 
-
 def isFlying():
-    altitude =get_altitude()
+    altitude = state.alt
     return altitude > 1.0
 
 def arm():
