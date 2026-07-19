@@ -5,3 +5,4 @@ numpy
 matplotlib
 pyproj
 shapely
+ultralytics
