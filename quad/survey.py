@@ -58,7 +58,7 @@ def harvasine(
 
 def wait_until_reached(target_lat, target_lon, tolerance = 2.0):
     
-    while True:
+    while state.survey_mission:
         state = get_state()
         lat, lon = state.lat, state.lon
 

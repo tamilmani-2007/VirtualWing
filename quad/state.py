@@ -15,6 +15,7 @@ class DroneState:
         self.connected = False
         self.heartbeat = False
         self.is_survey_completed = False
+        self.survey_mission = True
 
 state = DroneState()
 

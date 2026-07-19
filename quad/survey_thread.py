@@ -21,7 +21,7 @@ class SurveyFlight(threading.Thread):
         if PRE_ARM_CHECK:
             print("Connection passed")
 
-            if not quad.isFlying():
+            if not quad.isFlying() and state.survey_mission:
                 quad.setmode("GUIDED")
                 quad.arm()
                 
@@ -42,5 +42,5 @@ class SurveyFlight(threading.Thread):
                 print("Entering into survey mode")
                 survey.start_survey()
             else:
-                print("Drone is in Flight, Land and try again")
+                print("Drone is in Flight or the survey_mission is in False, Land and try again")
 

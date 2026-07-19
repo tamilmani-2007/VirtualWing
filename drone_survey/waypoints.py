@@ -345,7 +345,6 @@ class Plotter:
    
 #--------------------------------------------
 
-print(polygon)
 polygon_in_meters : List[tuple]= []
 first_lat, first_lon = polygon[0]
 
@@ -376,8 +375,7 @@ for coordinate in survey_area:
                         )
     coord_in_gps = (lat, lon)
     gps_pos.append(coord_in_gps)
-print("-" * 20)
-print("GPS_POS:", gps_pos)
+
 rotated_polygon = planner.rotated_area
 
 plotter = Plotter(

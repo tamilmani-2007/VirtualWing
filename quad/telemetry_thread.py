@@ -14,7 +14,7 @@ master = connection.get_master()
 
 class TelemetryThread(threading.Thread):
     def __init__(self):
-        super().__init__()
+        super().__init__(name = "Vision Thread")
         self.running = True
 
     def stop(self):
