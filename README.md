@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo-placeholder.png" alt="Virtual Wing Logo" width="180"/>
+  <img src="assets/logo.png" alt="Virtual Wing Logo" width="180"/>
 </p>
 
 <h1 align="center">Virtual Wing</h1>
