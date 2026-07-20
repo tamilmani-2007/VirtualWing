@@ -11,7 +11,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/build-passing-brightgreen" alt="build status placeholder"/>
   <img src="https://img.shields.io/badge/python-3.10%2B-blue" alt="python version placeholder"/>
-  <img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="license placeholder"/>
   <img src="https://img.shields.io/badge/status-active--development-orange" alt="status placeholder"/>
 </p>
 
