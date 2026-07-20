@@ -6,6 +6,7 @@ from quad.survey_thread import SurveyFlight
 from quad.telemetry_thread import TelemetryThread
 from cam.vision_thread import VisionThread
 from quad import quad
+import argparse
 
 """
 I did only the survey part of the Drone.
@@ -13,6 +14,7 @@ Next is the vision part of the Drone
 """
 
 def main():
+  
     if get_master():
         state.connected = True
 
@@ -40,11 +42,15 @@ def main():
         state.survey_mission = False
 
     finally:
-        vision.stop()
-        telemetry.stop()
+        if (
+            vision.is_alive(),
+            telemetry.is_alive()
+        ):
+            vision.stop()
+            telemetry.stop()
 
-        vision.join()
-        telemetry.join()
+            vision.join()
+            telemetry.join()
 
     if state.is_survey_completed:
         print("Mission accomplished..")

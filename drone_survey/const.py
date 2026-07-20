@@ -1,4 +1,5 @@
 from typing import List
+import argparse
 
 polygon : List[tuple] = [                    
                     (
@@ -26,4 +27,15 @@ polygon : List[tuple] = [
                         149.15933373006305
                     )
                 ]
-                        
+
+parser = argparse.ArgumentParser()
+
+port : int = parser.add_argument("--port",
+                                    type = int,
+                                    default = 14550,
+                                    help = "To specify the port for the connection",
+                                    )
+args = parser.parse_args()
+
+port = args.port
+                    
