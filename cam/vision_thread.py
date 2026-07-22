@@ -7,6 +7,7 @@ import cv2 as cv
 import threading
 from utils.logger import logger
 from quad.state import state
+from cam.obj_detect import Detector
 
 CAMERA_SOURCE = 0
 
@@ -19,16 +20,19 @@ class VisionThread(threading.Thread):
         self.running = False
     
     def run(self):
+        detector = Detector()
         cap = cv.VideoCapture(CAMERA_SOURCE)
-        print("hello")
+        
         while state.survey_mission:
             ret, frame = cap.read()
+            frame = cv.flip(frame, 1)
+
+            detected_frame = detector.detect(frame)
 
             if not ret:
                 logger.warning("Can't capture the frame")
                 break
-            frame = cv.flip(frame, 1)
-            cv.imshow("webcam", frame)
+            cv.imshow("detected frame", detected_frame)
 
             cv.waitKey(1)
         

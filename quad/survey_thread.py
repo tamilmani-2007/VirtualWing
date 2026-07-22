@@ -44,3 +44,19 @@ class SurveyFlight(threading.Thread):
             else:
                 print("Drone is in Flight or the survey_mission is in False, Land and try again")
 
+                ask_for_rtl = True
+
+                while ask_for_rtl:
+                    rtl = input("Can I Return to Launch on my own [y/n]")
+                    if rtl.lower() == "y" or rtl.lower() == "":
+                        print("Get to the Launch")
+                        quad.setmode("RTL")
+                        exit()
+                    elif rtl.lower() == "n":
+                        print("Okay..")
+                        ask_for_rtl = False
+                    else:
+                        print("Invalid credential Given try [y/n]")
+                        print("\n")
+
+

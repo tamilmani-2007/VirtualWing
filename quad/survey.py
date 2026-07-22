@@ -8,7 +8,8 @@ from drone_survey.waypoints import get_resultant_gps_pos
 from quad.connection import master
 from quad import quad
 from quad.state import get_state
-from quad.state import state
+
+state = get_state()
 
 gps_pos = get_resultant_gps_pos()
 
@@ -56,10 +57,9 @@ def harvasine(
     c = 2 * math.asin(math.sqrt(a))
     return EARTH_RADIUS * c
 
-def wait_until_reached(target_lat, target_lon, tolerance = 2.0):
+def wait_until_reached(target_lat, target_lon, tolerance = WAYPOINT_TOLERANCE):
     
     while state.survey_mission:
-        state = get_state()
         lat, lon = state.lat, state.lon
 
         distance = harvasine(
@@ -69,10 +69,13 @@ def wait_until_reached(target_lat, target_lon, tolerance = 2.0):
             target_lon
         )
         print(f"Distance: {distance:.2f} m")
-
+        
         if distance <= tolerance:
             break
         time.sleep(0.5)
+        
+    print("-" * 20, "\n")
+    
 def start_survey():
     for i, (lat, lon) in enumerate(gps_pos, start = 1):
         goto(lat, lon)

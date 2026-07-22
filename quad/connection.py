@@ -10,6 +10,9 @@ def get_master():
     if master is None:
         connection_string : str = f"udp:127.0.0.1:{port}"
         master = mavutil.mavlink_connection(connection_string)
+        if not master:
+            logger.error("Cant able to detect the Drone for the Connection")
+            exit()
     
     return master
 

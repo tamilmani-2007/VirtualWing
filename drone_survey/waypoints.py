@@ -53,7 +53,7 @@ class CoordinateTransformer:
 
         proj_str = f" +proj=utm +zone={zone} +datum=WGS84 +units=m +nodefs"
         if hemisphere == "south":
-            proj_str += "south"
+            proj_str += " south"
         
         self.utm_crs = CRS.from_proj4(proj_str)
 
@@ -71,7 +71,7 @@ class CoordinateTransformer:
     @staticmethod
     def get_utm_zone(lat, lon):
         """
-            Get the UTM zone for the given lat and lon
+            Get the UTM zone for the given lat 
         """
         zone = int(math.floor((lon + 180) / 6)) + 1
         hemisphere : str = "north" if lat >= 0 else "south"
