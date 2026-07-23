@@ -10,5 +10,5 @@ class GeoTag:
     def pre_process_frame(self):
         pass
 
-    def geotag(self):
+    def geotag(self, frame):
         pass

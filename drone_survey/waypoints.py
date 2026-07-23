@@ -382,6 +382,7 @@ plotter = Plotter(
             planner,
             survey_area
         )
+#plotter.plot_all()
 
 """
 Need to add the buffer operations if the border has fence.

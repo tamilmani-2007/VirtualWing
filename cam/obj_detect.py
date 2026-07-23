@@ -15,4 +15,4 @@ class Detector:
             return self.model(
                 frame,
                 verbose = False
-            )[0].plot()
+            )
