@@ -18,7 +18,7 @@ class DroneState:
         self.is_survey_completed = False
         self.survey_mission = True
         self.geotags : List[tuple] = []
-
+  
 state = DroneState()
 
 def get_state():

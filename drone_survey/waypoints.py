@@ -7,6 +7,7 @@ from typing import (
                 Self
                 )
 from shapely import Polygon, LineString
+from utils import utils
 import math
 from utils.logger import logger
 import matplotlib.pyplot as plt
@@ -16,17 +17,8 @@ import matplotlib.pyplot as plt
 Radian : TypeAlias = float
 Meters : TypeAlias = float
 
-#----------Camera Specifications in mm------------------------
-FOCAL_LENGTH = 0.0088
-SENSOR_WIDTH = 0.0132
-SENSOR_HEIGHT = 0.0088
+SIDE_OVERLAP = utils.SIDE_OVERLAP
 
-#----------Overlapping in percentage-------------------
-SIDE_OVERLAP = 0.70
-FRONT_OVERLAP = 0.80
-
-#----------Relative altitude of drone in m-------------
-FLIGHT_ALTITUDE = 50
 #------------------Rotate polygon togles---------------
 ROTATE_POLYGON_REVERSE = False
 """
@@ -40,7 +32,7 @@ polygon_in_meter is store the points for the first rotation
 """
 
 def get_linespace() -> Meters:
-    GROUND_WIDTH = (FLIGHT_ALTITUDE * SENSOR_WIDTH) / FOCAL_LENGTH
+    GROUND_WIDTH, _ = utils.ground_width_height()
     LINE_SPACING = GROUND_WIDTH * (1 - SIDE_OVERLAP)
 
     return LINE_SPACING

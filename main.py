@@ -22,7 +22,6 @@ def main():
     vision = VisionThread()
     survey = SurveyFlight()
 
-    print("Heartbeat Recieved")
     try:
         telemetry.start()
         #------Checking Heartbeat -> Pre-requesity for the survey
@@ -30,6 +29,8 @@ def main():
 
         while not state.heartbeat:
             time.sleep(0.1)
+
+        print("Heartbeat Recieved")
 
         vision.start()
         survey.start()

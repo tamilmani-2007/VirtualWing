@@ -29,20 +29,21 @@ class VisionThread(threading.Thread):
         
         while state.survey_mission:
             ret, frame = cap.read()
-            frame = cv.flip(frame, 1)
-
             if not ret:
                 logger.warning("Can't capture the frame")
                 break
+            frame = cv.flip(frame, 1)
 
-            detected_frame = detector.detect(frame)
+            detected_frame = detector.detect(frame)[0]
+            print(type(detected_frame))
+
             if len(detected_frame.boxes) != 0:
                 tag = geotag.geotag(detected_frame)
                 for pos in state.geotags:
                     if not harvasine(pos[0], pos[1], state.lat, state.lon) <= 4:
                         state.geotags.append(tag)            
             
-            cv.imshow("detected frame", detected_frame[0].plot())
+            cv.imshow("detected frame", detected_frame.plot())
 
             cv.waitKey(1)
         

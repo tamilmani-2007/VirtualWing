@@ -12,6 +12,7 @@ def check_for_preArm():
     Check for the pre Arm to check the drone is ready to fly or not.
     This contains the basic functionality checks needed
     """
+    
     PRE_ARM_CHECK : bool = False
     CHECKS : Dict[str : bool] = {}
 
