@@ -24,6 +24,7 @@ def main():
 
     try:
         telemetry.start()
+    
         #------Checking Heartbeat -> Pre-requesity for the survey
         print("wait for the heartbeat")
 

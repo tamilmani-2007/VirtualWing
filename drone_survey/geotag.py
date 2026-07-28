@@ -6,13 +6,13 @@ from quad.state import get_state
 from drone_survey.waypoints import CoordinateTransformer
 from utils import utils
 from quad.survey import harvasine
-from drone_survey.waypoints import CoordinateTransformer
+from drone_survey.waypoints import get_CoordTrans
 import math
 
 state = get_state()  
 
-transformer = CoordinateTransformer(state.lat, state.lon)   
-state = get_state()
+CoordTrans = get_CoordTrans()
+
 
 GROUND_WIDTH, GROUND_HEIGHT = utils.ground_width_height()
 
@@ -25,12 +25,12 @@ class GeoTag:
 
     def geotag(self, frame):
         current_lat, current_lon = state.lat, state.lon
-        current_lat_m, current_lon_m = CoordinateTransformer.gps_to_meter(
+        current_lat_m, current_lon_m = CoordTrans.gps_to_meter(
                                                                     current_lat,
                                                                     current_lon 
                                                                 )
         for box in frame[0].boxes:
-            x_center, y_center, _, _ = box.xywh[0]
+            x_center, y_center, _, _ = box.xywh[0].cpu().tolist()
 
             pixel_diff_x = x_center - frame_center_x
             pixel_diff_y = y_center - frame_center_y
@@ -40,7 +40,7 @@ class GeoTag:
             obj_lon_m = current_lon_m + x_offset
             obj_lat_m = current_lat_m + y_offset
 
-            obj_lat, obj_lon  = transformer.meter_to_gps(obj_lon_m, obj_lat_m)
+            obj_lat, obj_lon  = CoordTrans.meter_to_gps(obj_lon_m, obj_lat_m)
 
             for prev_lat_lon in state.geotags:
 

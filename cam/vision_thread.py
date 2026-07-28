@@ -35,13 +35,13 @@ class VisionThread(threading.Thread):
             frame = cv.flip(frame, 1)
 
             detected_frame = detector.detect(frame)[0]
-            print(type(detected_frame))
-
-            if len(detected_frame.boxes) != 0:
+            print(detected_frame.boxes)
+            if len(detected_frame.boxes) > 0:
                 tag = geotag.geotag(detected_frame)
                 for pos in state.geotags:
-                    if not harvasine(pos[0], pos[1], state.lat, state.lon) <= 4:
-                        state.geotags.append(tag)            
+                    if not harvasine(pos[0], pos[1], tag[0], tag[1]) <= 2.0:
+                        state.geotags.append(tag)
+                        print(state.geotags)            
             
             cv.imshow("detected frame", detected_frame.plot())
 

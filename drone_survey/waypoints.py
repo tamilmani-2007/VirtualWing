@@ -334,21 +334,28 @@ class Plotter:
 
                 plt.tight_layout()
                 plt.show()
-   
+
+
+def get_CoordTrans():
+    first_lat, first_lon = polygon[0]
+    CoordTrans = CoordinateTransformer(first_lat, first_lon)
+
+    return CoordTrans
 #--------------------------------------------
 
 polygon_in_meters : List[tuple]= []
-first_lat, first_lon = polygon[0]
+
 
 # resultant gps position for the survey of the intersections
 gps_pos : List[tuple] = []
-CoordTrans = CoordinateTransformer(first_lat, first_lon)
 
+CoordTrans = get_CoordTrans()
 for coordinate in polygon:
     easting, northing = CoordTrans.gps_to_meter(
                             coordinate[0],
                             coordinate[1]
                         )
+    
     coord_in_meter = (easting, northing)
     polygon_in_meters.append(coord_in_meter)
 

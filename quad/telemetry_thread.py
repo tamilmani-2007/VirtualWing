@@ -8,6 +8,7 @@ from utils.logger import logger
 from quad import connection
 from quad.state import get_state 
 from pymavlink import mavutil
+import time
 
 state = get_state()
 master = connection.get_master()
@@ -51,6 +52,6 @@ class TelemetryThread(threading.Thread):
                     mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED
                 ) != 0
             elif msg_type == "VFR_HUD":
-                state.speed = msg.groundspeed
+                state.speed = msg.groundspeed    
 
                 
