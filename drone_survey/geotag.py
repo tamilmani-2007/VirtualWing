@@ -43,5 +43,6 @@ class GeoTag:
         obj_lat_m = current_lat_m + y_offset
 
         obj_lat, obj_lon  = CoordTrans.meter_to_gps(obj_lon_m, obj_lat_m)
-        
+
+        state.geotags.append((obj_lat, obj_lon))
         print("lat, lon:", obj_lat, obj_lon)

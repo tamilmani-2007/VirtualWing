@@ -205,6 +205,8 @@ Additional runnable examples  will be  in the [`examples/`](./examples) director
 | Precision Landing   |  Planned     |
 | Mission Logging     |  Planned     |
 | Web Dashboard       |  Planned     |
+| Payload Mechanism   |  Planned     |
+| Swarm Drone         |  To do       |
 
 ---
 

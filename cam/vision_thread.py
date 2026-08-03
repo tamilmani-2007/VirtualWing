@@ -37,9 +37,14 @@ class VisionThread(threading.Thread):
             detected_frame = detector.detect(frame)[0]      
             
             cv.imshow("detected frame", detected_frame.plot())
-
+        
             for box in detected_frame.boxes:
+
+                if box.id is None:
+                    continue
+
                 track_id = int(box.id.item())
+                
                 if track_id in state.processed_ids:
                     continue
                 else:
