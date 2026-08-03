@@ -12,7 +12,8 @@ class Detector:
             self : Self,
             frame : np.ndarray
             ) -> np.ndarray:
-            return self.model(
+            return self.model.track(
                 frame,
-                verbose = False
+                verbose = False,
+                persist = True
             )

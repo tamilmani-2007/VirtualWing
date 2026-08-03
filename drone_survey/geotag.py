@@ -7,7 +7,10 @@ from drone_survey.waypoints import CoordinateTransformer
 from utils import utils
 from quad.survey import harvasine
 from drone_survey.waypoints import get_CoordTrans
+from ultralytics import YOLO
 import math
+
+model = YOLO("yolov8n.pt")
 
 state = get_state()  
 
@@ -23,30 +26,22 @@ class GeoTag:
     def __init__(self):
         self.pixel_length = utils.get_pixel_length()
 
-    def geotag(self, frame):
+    def geotag(self, box):
         current_lat, current_lon = state.lat, state.lon
         current_lat_m, current_lon_m = CoordTrans.gps_to_meter(
                                                                     current_lat,
                                                                     current_lon 
                                                                 )
-        for box in frame[0].boxes:
-            x_center, y_center, _, _ = box.xywh[0].cpu().tolist()
+        x_center, y_center, _, _ = box.xywh[0].cpu().tolist()
 
-            pixel_diff_x = x_center - frame_center_x
-            pixel_diff_y = y_center - frame_center_y
-            
-            x_offset, y_offset = utils.calculate_offset(pixel_diff_x, pixel_diff_y)
+        pixel_diff_x = x_center - frame_center_x
+        pixel_diff_y = y_center - frame_center_y
+    
+        x_offset, y_offset = utils.calculate_offset(pixel_diff_x, pixel_diff_y)
 
-            obj_lon_m = current_lon_m + x_offset
-            obj_lat_m = current_lat_m + y_offset
+        obj_lon_m = current_lon_m + x_offset
+        obj_lat_m = current_lat_m + y_offset
 
-            obj_lat, obj_lon  = CoordTrans.meter_to_gps(obj_lon_m, obj_lat_m)
-
-            for prev_lat_lon in state.geotags:
-
-                if not harvasine(prev_lat_lon[0], prev_lat_lon[1], obj_lat, obj_lon) <= 2.0:
-                    return (obj_lat, obj_lon)
-                else:
-                    print("Duplicate waypoint detected")
-                
-
+        obj_lat, obj_lon  = CoordTrans.meter_to_gps(obj_lon_m, obj_lat_m)
+        
+        print("lat, lon:", obj_lat, obj_lon)

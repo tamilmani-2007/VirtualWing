@@ -26,7 +26,7 @@ class VisionThread(threading.Thread):
     def run(self):
         detector = Detector()
         cap = cv.VideoCapture(CAMERA_SOURCE)
-        
+
         while state.survey_mission:
             ret, frame = cap.read()
             if not ret:
@@ -34,16 +34,18 @@ class VisionThread(threading.Thread):
                 break
             frame = cv.flip(frame, 1)
 
-            detected_frame = detector.detect(frame)[0]
-            print(detected_frame.boxes)
-            if len(detected_frame.boxes) > 0:
-                tag = geotag.geotag(detected_frame)
-                for pos in state.geotags:
-                    if not harvasine(pos[0], pos[1], tag[0], tag[1]) <= 2.0:
-                        state.geotags.append(tag)
-                        print(state.geotags)            
+            detected_frame = detector.detect(frame)[0]      
             
             cv.imshow("detected frame", detected_frame.plot())
+
+            for box in detected_frame.boxes:
+                track_id = int(box.id.item())
+                if track_id in state.processed_ids:
+                    continue
+                else:
+                    geotag.geotag(box)
+
+                state.processed_ids.add(track_id)
 
             cv.waitKey(1)
         

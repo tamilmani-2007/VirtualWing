@@ -161,7 +161,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # Install dependencies
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 
 ---
@@ -201,7 +201,7 @@ Additional runnable examples  will be  in the [`examples/`](./examples) director
 | Polygon Survey      |  Implemented |
 | Waypoint Navigation |  Implemented |
 | Camera Streaming    |  Implemented |
-| Object Detection    |  Planned     |
+| Object Detection    |  Implemented |
 | Precision Landing   |  Planned     |
 | Mission Logging     |  Planned     |
 | Web Dashboard       |  Planned     |

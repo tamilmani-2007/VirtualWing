@@ -6,6 +6,7 @@ from quad.survey_thread import SurveyFlight
 from quad.telemetry_thread import TelemetryThread
 from cam.vision_thread import VisionThread
 from quad import quad
+from checks.dup_geotag_check import rem_duplicate_tags
 import argparse
 
 """
@@ -56,6 +57,15 @@ def main():
 
     if state.is_survey_completed:
         print("Mission accomplished..")
+
+    print("Before removing Geotags")
+    print(state.geotags)
+
+    print("Removing duplication in geotags")    
+    rem_duplicate_tags()
+    
+    print(state.geotags)
+    
 
 if __name__ == "__main__":
     main()
