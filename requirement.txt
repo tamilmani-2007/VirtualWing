@@ -1,8 +1,0 @@
-pymavlink
-opencv-python
-pynput
-numpy
-matplotlib
-pyproj
-shapely
-ultralytics

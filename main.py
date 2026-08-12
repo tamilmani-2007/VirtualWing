@@ -9,11 +9,6 @@ from quad import quad
 from checks.dup_geotag_check import rem_duplicate_tags
 import argparse
 
-"""
-I did only the survey part of the Drone.
-Next is the vision part of the Drone
-"""
-
 def main():
   
     if get_master():
